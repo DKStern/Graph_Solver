@@ -1,4 +1,3 @@
-C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\obj\Debug\GraphSolver.csprojResolveAssemblyReference.cache
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\obj\Debug\GraphSolver.csproj.CoreCompileInputs.cache
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\bin\Debug\GraphSolver.exe.config
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\bin\Debug\GraphSolver.exe

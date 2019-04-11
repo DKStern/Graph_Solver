@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphSolver
 {
     class Program
     {
+        private static Stopwatch reading, working;
+
         private static int[] next;
         private static int curCity, N;
         private static double curLen;
@@ -25,6 +25,8 @@ namespace GraphSolver
             {
                 using (var sr = new StreamReader("Output.txt"))
                 {
+                    reading = new Stopwatch();
+                    reading.Start();
                     while (!sr.EndOfStream)
                     {
                         var str = sr.ReadLine();
@@ -32,6 +34,7 @@ namespace GraphSolver
                             str = str.Remove(str.Length-1, 1);
                         Graph.Add(str);
                     }
+                    reading.Stop();
                 }
                 if (Graph[Graph.Count - 1] == "")
                     Graph.RemoveAt(Graph.Count - 1);
@@ -74,6 +77,8 @@ namespace GraphSolver
         {
             Console.WriteLine("Решаем...");
             Console.WriteLine("Идём из вершины 1...");
+            working = new Stopwatch();
+            working.Start();
             s[1] = 0.0;
             curCity = 1;
             visited.Add(1);
@@ -107,7 +112,7 @@ namespace GraphSolver
             Console.WriteLine("Города проверены, поиск решения...");
 
             var max = Double.MinValue;
-            var count = -1;
+            var count = 0;
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] > max)
@@ -127,8 +132,11 @@ namespace GraphSolver
                 index = next[index];
             }
             path += "->1";
+            working.Stop();
             Console.WriteLine("Оптимальный путь:");
             Console.WriteLine(path);
+            Console.WriteLine(string.Format("Время считывания: {0}", reading.Elapsed));
+            Console.WriteLine(string.Format("Время работы: {0}", working.Elapsed));
         }
 
         static void Main(string[] args)

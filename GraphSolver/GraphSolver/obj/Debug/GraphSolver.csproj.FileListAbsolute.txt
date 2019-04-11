@@ -4,3 +4,4 @@ C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\bin\Debug\G
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\bin\Debug\GraphSolver.pdb
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\obj\Debug\GraphSolver.exe
 C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\obj\Debug\GraphSolver.pdb
+C:\Users\Ermol\Documents\GitHub\Graph_Solver\GraphSolver\GraphSolver\obj\Debug\GraphSolver.csprojAssemblyReference.cache

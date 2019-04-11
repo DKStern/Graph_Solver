@@ -7,8 +7,7 @@ namespace GraphSolver
 {
     class Program
     {
-        private static Stopwatch reading, working;
-
+        private static int name;
         private static int[] next;
         private static int curCity, N;
         private static double curLen;
@@ -19,22 +18,20 @@ namespace GraphSolver
         /// <summary>
         /// Читаем файл с графом
         /// </summary>
-        private static void Read()
+        private static void Read(string name)
         {
             try
             {
-                using (var sr = new StreamReader("Output.txt"))
+                using (var sr = new StreamReader(name))
                 {
-                    reading = new Stopwatch();
-                    reading.Start();
-                    while (!sr.EndOfStream)
+                    N = Convert.ToInt32(sr.ReadLine());
+                    for (int i = 0; i < N; i++)
                     {
-                        var str = sr.ReadLine();
+                        var str = sr.ReadLine().Replace('.',',');
                         if (str[str.Length-1] == ' ')
                             str = str.Remove(str.Length-1, 1);
                         Graph.Add(str);
                     }
-                    reading.Stop();
                 }
                 if (Graph[Graph.Count - 1] == "")
                     Graph.RemoveAt(Graph.Count - 1);
@@ -75,10 +72,6 @@ namespace GraphSolver
         /// </summary>
         private static void Work()
         {
-            Console.WriteLine("Решаем...");
-            Console.WriteLine("Идём из вершины 1...");
-            working = new Stopwatch();
-            working.Start();
             s[1] = 0.0;
             curCity = 1;
             visited.Add(1);
@@ -101,15 +94,12 @@ namespace GraphSolver
                         }
                     }
                 }
-                Console.WriteLine(string.Format("Найден минимальный путь из вершины {0} в вершину {1} - {2} км", curCity, node, min));
                 next[curCity] = node;
                 curLen += min;
                 s[i] = 100 * (i - 1) - curLen - GetFirstLen(node);
-                Console.WriteLine(string.Format("Прибыль от посещения {0} городов: {1} р.", i, s[i]));
                 curCity = node;
                 visited.Add(node);
             }
-            Console.WriteLine("Города проверены, поиск решения...");
 
             var max = Double.MinValue;
             var count = 0;
@@ -118,42 +108,53 @@ namespace GraphSolver
                 if (s[i] > max)
                 {
                     max = s[i];
-                    count = i;
+                    count = i - 1;
                 }
             }
-            Console.WriteLine("Решение найдено!");
-            Console.WriteLine(string.Format("Максимальная выгода: {0}", max));
-            Console.WriteLine(string.Format("Городов нужно посетить: {0}", count));
-            var path = "1";
-            var index = 1;
-            for (int i = 0; i < count; i++)
+            Write(max, count);
+            
+        }
+
+        private static void Write(double max, int count)
+        {
+            var str = "output\\Output" + Convert.ToString(name) + ".txt";
+            using (var sw = new StreamWriter(str))
             {
-                path += "->" + Convert.ToString(next[index]);
-                index = next[index];
+                var path = "0";
+                var index = 1;
+                sw.WriteLine(max);
+                for (int i = 0; i < count; i++)
+                {
+                    path += " " + Convert.ToString(next[index] - 1);
+                    index = next[index];
+                }
+                path += " 0";
+                sw.WriteLine(path);
             }
-            path += "->1";
-            working.Stop();
-            Console.WriteLine("Оптимальный путь:");
-            Console.WriteLine(path);
-            Console.WriteLine(string.Format("Время считывания: {0}", reading.Elapsed));
-            Console.WriteLine(string.Format("Время работы: {0}", working.Elapsed));
         }
 
         static void Main(string[] args)
         {
-            Read();
-            if (Graph.Count == 0)
+            var count = Convert.ToInt32(Console.ReadLine());
+            for (int i = 1; i <= count; i++)
             {
-                Console.WriteLine("Граф пуст!");
-                return;
+                visited.Clear();
+                Graph.Clear();
+                name = i;
+                var str = "input\\Input" + Convert.ToString(i) + ".txt";
+                Read(str);
+                if (Graph.Count == 0)
+                {
+                    Console.WriteLine("Граф пуст!");
+                    continue;
+                }
+                else
+                    Console.WriteLine("Граф считан");
+                s = new double[N + 1];
+                next = new int[N + 1];
+                Work();
             }
-            else
-                Console.WriteLine("Граф считан");
-            N = Graph[0].Split(' ').Length;
-            Console.WriteLine(string.Format("Размерность графа: {0}",N));
-            s = new double[N+1];
-            next = new int[N+1];
-            Work();
+            Console.WriteLine("Готово!");
             Console.ReadLine();
         }
     }
